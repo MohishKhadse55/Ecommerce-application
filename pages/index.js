@@ -1,20 +1,36 @@
 import React from "react";
+import { client } from "../lib/client";
 
+import { Product, FooterBanner, HeroBanner } from "../components";
 //rsc
-const Index = () => {
+const Index = ({ products, bannerData }) => {
   return (
     <>
-      Hero Banner
+      <HeroBanner heroBanner={(products, bannerData[0])} />
+      {console.log(bannerData.length)}
       <div className="products-heading">
         <h2>Best selling product</h2>
         <p>Speakers of many variations</p>
       </div>
       <div className="products-container">
-        {["product 1", "priduct 2"].map((product) => product)}
+        {products?.map((product) => (
+          <Product key={product._id} product={product} />
+        ))}
       </div>
-      Footer
+      <FooterBanner footerBanner={bannerData && bannerData[0]} />
     </>
   );
+};
+
+export const getServerSideProps = async () => {
+  const query = '*[_type=="product"]';
+  const products = await client.fetch(query);
+  const bannerQuery = '*[_type == "banner"]';
+  const bannerData = await client.fetch(bannerQuery);
+
+  return {
+    props: { products, bannerData },
+  };
 };
 
 export default Index;
