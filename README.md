@@ -9,4 +9,4 @@ Combines the power of Next.js and Sanity to deliver a robust and user-friendly e
   - Install strapi 
   - Install dependencies by ```npm install```
   - ```npm run build```
-  - npm ```run start```
+  - ```npm run start```
